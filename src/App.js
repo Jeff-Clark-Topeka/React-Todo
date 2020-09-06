@@ -30,34 +30,46 @@ class App extends React.Component {
     };
   }
   
-  toggleItem = (itemId) => {
+  toggleTodo = (todoId) => {
     this.setState({
-      todos: this.state.todos.map((item) => {
-        if (item.id === itemId) {
+      todos: this.state.todos.map((todo) => {
+        if (todo.id === todoId) {
           return {
-            ...item,
-            completed: !item.completed
+            ...todo,
+            completed: !todo.completed
           }
         }
+        console.log("this is our todo returned", todo)
+        return todo;
       })
     })
   }
 
   clearCompleted = () => {
     this.setState({
-      todos: this.state.todos.filter((item) => {
-        return !item.completed;
+      todos: this.state.todos.filter((todo) => {
+        return !todo.completed;
       })
     });
   };
+
+  addTodo = (todoItem) => {
+    this.setState({
+      todos: [
+        ...this.state.todos,
+        { id: Date.now(), task: todoItem, completed: false }
+      ]
+    })
+  }
 
   render() {
     return (
       <div>
         <h2>Todo List</h2>
+        <TodoForm addTodo={this.addTodo}/>
         <TodoList 
           todos={this.state.todos}
-          toggleItem={this.toggleItem}
+          toggleTodo={this.toggleTodo}
           clearCompleted={this.clearCompleted}
         />
       </div>
